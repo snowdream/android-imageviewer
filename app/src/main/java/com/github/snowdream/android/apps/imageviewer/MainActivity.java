@@ -1,5 +1,6 @@
 package com.github.snowdream.android.apps.imageviewer;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -8,11 +9,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.github.snowdream.android.util.Log;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener;
 
 
 public class MainActivity extends ActionBarActivity {
-    private ImageView imageview = null;
+    private ImageView imageView = null;
+    private String imageUri = null;
+    private ImageLoader imageLoader = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,16 +34,45 @@ public class MainActivity extends ActionBarActivity {
         loadData();
     }
 
-    public void initUI(){
-       imageview = (ImageView)findViewById(R.id.imageview);
+    public void initUI() {
+        imageView = (ImageView) findViewById(R.id.imageView);
     }
 
-    public void initData(){
+    public void initData() {
+        imageLoader = ImageLoader.getInstance();
 
+        imageUri = "http://www.zhuti.org/uploads/allimg/1103/1-11031GK1320-L.jpg";
     }
 
-    public void loadData(){
+    public void loadData() {
+        DisplayImageOptions options = new DisplayImageOptions.Builder().build();
+        imageLoader.displayImage(imageUri, imageView, options, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                        Log.i("onLoadingStarted");
+                    }
 
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        Log.e("onLoadingFailed");
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        Log.i("onLoadingComplete");
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+                        Log.w("onLoadingCancelled");
+                    }
+                }, new ImageLoadingProgressListener() {
+                    @Override
+                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                        Log.i("onProgressUpdate " + current + "/" + "total");
+                    }
+                }
+        );
     }
 
 
