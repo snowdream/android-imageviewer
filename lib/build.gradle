@@ -1,0 +1,10 @@
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply from: '../config/android-library.gradle'
+//apply from: '../config/sign.gradle'
+apply from: '../config/maven_push.gradle'
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:+'
+}
+

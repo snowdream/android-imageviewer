@@ -1,0 +1,12 @@
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply from: '../config/android.gradle'
+//apply from: '../config/sign.gradle'
+//apply from: '../config/maven_push.gradle'
+
+dependencies {
+    //compile project(':lib')
+    compile "com.android.support:support-v4:19.0.1+"
+    compile 'com.android.support:appcompat-v7:19.0.1+'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.1'
+}
