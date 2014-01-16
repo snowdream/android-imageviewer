@@ -2,6 +2,7 @@ package com.github.snowdream.android.apps.imageviewer;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListene
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements PhotoViewAttacher.OnViewTapListener {
     private ImageView imageView = null;
     private String imageUri = null;
     private ImageLoader imageLoader = null;
@@ -36,6 +37,7 @@ public class MainActivity extends ActionBarActivity {
     public void initUI() {
         imageView = (ImageView) findViewById(R.id.imageView);
         attacher = new PhotoViewAttacher(imageView);
+        attacher.setOnViewTapListener(this);
     }
 
     public void initData() {
@@ -94,6 +96,14 @@ public class MainActivity extends ActionBarActivity {
         );
     }
 
+    public void onViewTap(View view, float x, float y) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar.isShowing()) {
+            actionBar.hide();
+        } else {
+            actionBar.show();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
