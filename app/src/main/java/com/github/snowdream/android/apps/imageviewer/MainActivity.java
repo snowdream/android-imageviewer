@@ -15,11 +15,14 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 
 public class MainActivity extends ActionBarActivity {
     private ImageView imageView = null;
     private String imageUri = null;
     private ImageLoader imageLoader = null;
+    private PhotoViewAttacher attacher = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void initUI() {
         imageView = (ImageView) findViewById(R.id.imageView);
+        attacher = new PhotoViewAttacher(imageView);
     }
 
     public void initData() {
@@ -74,6 +78,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         Log.i("onLoadingComplete");
+                        attacher.update();
                     }
 
                     @Override
