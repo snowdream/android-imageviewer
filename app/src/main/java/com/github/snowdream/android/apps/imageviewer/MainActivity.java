@@ -35,6 +35,8 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
     }
 
     public void initUI() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         imageView = (ImageView) findViewById(R.id.imageView);
         attacher = new PhotoViewAttacher(imageView);
         attacher.setOnViewTapListener(this);
