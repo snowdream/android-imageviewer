@@ -3,6 +3,7 @@
 
     <string name="app_name">雪梦图片浏览器</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">设置</string>
+    <string name="action_share">分享</string>
 
 </resources>

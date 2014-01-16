@@ -2,15 +2,11 @@ package com.github.snowdream.android.apps.imageviewer;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -45,6 +41,24 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void loadData() {
+//        DisplayImageOptions options = new DisplayImageOptions.Builder()
+//                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
+//                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
+//                .showImageOnFail(R.drawable.ic_error) // resource or drawable
+//                .resetViewBeforeLoading(false)  // default
+//                .delayBeforeLoading(1000)
+//                .cacheInMemory(false) // default
+//                .cacheOnDisc(false) // default
+//                .preProcessor(...)
+//        .postProcessor(...)
+//        .extraForDownloader(...)
+//        .considerExifParams(false) // default
+//                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2) // default
+//                .bitmapConfig(Bitmap.Config.ARGB_8888) // default
+//                .decodingOptions(...)
+//        .displayer(new SimpleBitmapDisplayer()) // default
+//                .handler(new Handler()) // default
+//                .build();
         DisplayImageOptions options = new DisplayImageOptions.Builder().build();
         imageLoader.displayImage(imageUri, imageView, options, new ImageLoadingListener() {
                     @Override
