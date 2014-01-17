@@ -2,11 +2,13 @@ package com.github.snowdream.android.apps.imageviewer;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,7 +51,21 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
     public void initData() {
         imageLoader = ImageLoader.getInstance();
 
-        imageUri = "http://www.zhuti.org/uploads/allimg/1103/1-11031GK1320-L.jpg";
+        Intent intent = getIntent();
+        if (intent != null){
+            Uri uri=(Uri)intent.getData();
+            if(uri != null){
+                imageUri = "file://"+ uri.getEncodedPath();
+                Log.i("The path of the image is: " + imageUri);
+            }
+        }else{
+            Log.w("The intent is null!");
+        }
+
+
+        //imageUri = "http://www.zhuti.org/uploads/allimg/1103/1-11031GK1320-L.jpg";
+        //imageUri=  "drawable://" + R.drawable.ic_launcher;
+        //imageUri=  "file:///mnt/sdcard/snowdream/photo/1238180689.jpeg";
     }
 
     public void loadData() {
@@ -123,6 +139,10 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
         // onCreateActionView() which uses the backing file name. Omit this
         // line if using the default share history file is desired.
         shareActionProvider.setShareHistoryFileName("snowdream_android_imageviewer_share_history.xml");
+        Intent shareIntent = createShareIntent();
+        if (shareIntent != null) {
+            doShare(shareIntent);
+        }
         return true;
     }
 
@@ -130,12 +150,28 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_share) {
-            doShare(new Intent());
+            Intent shareIntent = createShareIntent();
+            if (shareIntent != null) {
+                doShare(shareIntent);
+            }
             return true;
         } else if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private Intent createShareIntent() {
+        Intent shareIntent = null;
+
+        if (!TextUtils.isEmpty(imageUri)) {
+            shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("image/*");
+            Uri uri = Uri.parse(imageUri);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        }
+
+        return shareIntent;
     }
 
     public void doShare(Intent shareIntent) {
