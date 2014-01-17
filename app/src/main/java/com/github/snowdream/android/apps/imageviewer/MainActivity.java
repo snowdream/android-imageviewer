@@ -1,9 +1,12 @@
 package com.github.snowdream.android.apps.imageviewer;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +27,7 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
     private String imageUri = null;
     private ImageLoader imageLoader = null;
     private PhotoViewAttacher attacher = null;
+    private ShareActionProvider shareActionProvider = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +114,15 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        // Locate MenuItem with ShareActionProvider
+        MenuItem itemShare = menu.findItem(R.id.action_share);
+        // Get the provider and hold onto it to set/change the share intent.
+        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(itemShare);
+        // Set history different from the default before getting the action
+        // view since a call to MenuItemCompat.getActionView() calls
+        // onCreateActionView() which uses the backing file name. Omit this
+        // line if using the default share history file is desired.
+        shareActionProvider.setShareHistoryFileName("snowdream_android_imageviewer_share_history.xml");
         return true;
     }
 
@@ -117,10 +130,17 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_share) {
+            doShare(new Intent());
             return true;
         } else if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void doShare(Intent shareIntent) {
+        if (shareActionProvider != null) {
+            shareActionProvider.setShareIntent(shareIntent);
+        }
     }
 }
