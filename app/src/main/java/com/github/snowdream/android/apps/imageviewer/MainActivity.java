@@ -52,13 +52,13 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
         imageLoader = ImageLoader.getInstance();
 
         Intent intent = getIntent();
-        if (intent != null){
-            Uri uri=(Uri)intent.getData();
-            if(uri != null){
-                imageUri = "file://"+ uri.getEncodedPath();
+        if (intent != null) {
+            Uri uri = (Uri) intent.getData();
+            if (uri != null) {
+                imageUri = "file://" + uri.getEncodedPath();
                 Log.i("The path of the image is: " + imageUri);
             }
-        }else{
+        } else {
             Log.w("The intent is null!");
         }
 
@@ -149,7 +149,10 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_share) {
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.action_share) {
             Intent shareIntent = createShareIntent();
             if (shareIntent != null) {
                 doShare(shareIntent);
