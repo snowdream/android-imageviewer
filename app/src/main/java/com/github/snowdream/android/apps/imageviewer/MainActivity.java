@@ -1,6 +1,8 @@
 package com.github.snowdream.android.apps.imageviewer;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +22,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener;
+
+import java.util.List;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -152,6 +156,8 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
         if (id == android.R.id.home) {
             finish();
             return true;
+        } else if (id == R.id.action_edit) {
+            doEdit();
         } else if (id == R.id.action_share) {
             Intent shareIntent = createShareIntent();
             if (shareIntent != null) {
@@ -159,6 +165,7 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
             }
             return true;
         } else if (id == R.id.action_settings) {
+            doSettings();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -182,4 +189,20 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
             shareActionProvider.setShareIntent(shareIntent);
         }
     }
-}
+
+    public void doSettings() {
+        if (!TextUtils.isEmpty(imageUri)) {
+            Uri uri = Uri.parse(imageUri);
+            Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
+            intent.setDataAndType(uri, "image/jpg");
+            intent.putExtra("mimeType", "image/jpg");
+            startActivityForResult(Intent.createChooser(intent, getText(R.string.action_settings)), 200);
+        }
+    }
+
+    public void doEdit() {
+
+    }
+
+
+    }
