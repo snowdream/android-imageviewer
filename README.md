@@ -8,7 +8,7 @@ a simple image viewer for android.
 Android 2.3+
 
 ##Download
-[Google Play][1]   
+[Google Play][1]
 [Github][2]
 
 ##Preview
