@@ -22,6 +22,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.List;
 
@@ -91,7 +93,11 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
 //        .displayer(new SimpleBitmapDisplayer()) // default
 //                .handler(new Handler()) // default
 //                .build();
-        DisplayImageOptions options = new DisplayImageOptions.Builder().build();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                .bitmapConfig(Bitmap.Config.ARGB_8888)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .build();
         imageLoader.displayImage(imageUri, imageView, options, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
