@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Snowdream Mobile <yanghui1986527@gmail.com>
+ * Copyright (C) 2014 Snowdream Mobile <yanghui1986527@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 buildscript {
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.3+'
+        classpath 'com.android.tools.build:gradle:0.8.0+'
     }
 }
 
@@ -43,11 +44,9 @@ allprojects {
     }
 }
 
-/**
- * Task to generate a gradle wrapper.
- */
+
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.9'
+    gradleVersion = '1.10'
 }
 
 
