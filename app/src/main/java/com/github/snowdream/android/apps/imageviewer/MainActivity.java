@@ -17,8 +17,6 @@
 package com.github.snowdream.android.apps.imageviewer;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,8 +29,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.github.snowdream.android.util.Log;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -40,10 +38,6 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.google.analytics.tracking.android.EasyTracker;
-
-import java.util.List;
-
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 
@@ -124,7 +118,8 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
 //                .build();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
-                .bitmapConfig(Bitmap.Config.ARGB_8888)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .cacheInMemory(false)
                 .displayer(new FadeInBitmapDisplayer(300))
                 .build();
         imageLoader.displayImage(imageUri, imageView, options, new ImageLoadingListener() {

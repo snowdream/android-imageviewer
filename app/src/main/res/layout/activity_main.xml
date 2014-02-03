@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 ads:adSize="SMART_BANNER"
                 ads:adUnitId="a152ef415b7b96f"
-                ads:loadAdOnCreate="true" />
+                ads:loadAdOnCreate="false" />
     </LinearLayout>
 
 </RelativeLayout>
