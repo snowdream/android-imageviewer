@@ -44,6 +44,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class MainActivity extends ActionBarActivity implements PhotoViewAttacher.OnViewTapListener {
     private ImageView imageView = null;
     private String imageUri = null;
+    private String fileName = null;
     private ImageLoader imageLoader = null;
     private PhotoViewAttacher attacher = null;
     private ShareActionProvider shareActionProvider = null;
@@ -74,7 +75,7 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
         actionBar.setDisplayHomeAsUpEnabled(true);
         imageView = (ImageView) findViewById(R.id.imageView);
         attacher = new PhotoViewAttacher(imageView);
-        attacher.setOnViewTapListener(this);
+       // attacher.setOnViewTapListener(this);
     }
 
     public void initData() {
@@ -85,16 +86,13 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
             Uri uri = (Uri) intent.getData();
             if (uri != null) {
                 imageUri = "file://" + uri.getEncodedPath();
+                fileName = uri.getLastPathSegment();
+                getSupportActionBar().setSubtitle(fileName);
                 Log.i("The path of the image is: " + imageUri);
             }
         } else {
             Log.w("The intent is null!");
         }
-
-
-        //imageUri = "http://www.zhuti.org/uploads/allimg/1103/1-11031GK1320-L.jpg";
-        //imageUri=  "drawable://" + R.drawable.ic_launcher;
-        //imageUri=  "file:///mnt/sdcard/snowdream/photo/1238180689.jpeg";
     }
 
     public void loadData() {
