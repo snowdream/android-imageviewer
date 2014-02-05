@@ -15,18 +15,17 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:ignore="MergeRootFrame">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity"
+                tools:ignore="MergeRootFrame">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerInside"
-        android:layout_centerInParent="true" />
+    <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -35,7 +34,8 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFFFF"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical" >
+            android:layout_below="@id/viewpager"
+            android:orientation="vertical">
 
         <com.google.ads.AdView
                 android:id="@+id/adView"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 ads:adSize="SMART_BANNER"
                 ads:adUnitId="a152ef415b7b96f"
-                ads:loadAdOnCreate="false" />
+                ads:loadAdOnCreate="false"/>
     </LinearLayout>
 
 </RelativeLayout>

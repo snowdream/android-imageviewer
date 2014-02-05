@@ -17,7 +17,7 @@
 
 <resources>
 
-    <string name="app_name">ImageViewer</string>
+    <string name="app_name">Snowdream ImageViewer</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Set As</string>
     <string name="action_share">Share</string>

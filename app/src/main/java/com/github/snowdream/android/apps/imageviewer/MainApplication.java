@@ -17,10 +17,14 @@
 package com.github.snowdream.android.apps.imageviewer;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 
+import android.os.Build;
+import android.os.StrictMode;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -49,11 +53,22 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        File cacheDir = StorageUtils.getCacheDirectory(getApplicationContext());
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+//            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyDialog().build());
+//            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyDeath().build());
+//        }
+
+        initImageLoader(getApplicationContext());
+    }
+
+
+    public static void initImageLoader(Context context) {
+        File cacheDir = StorageUtils.getCacheDirectory(context);
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .memoryCacheExtraOptions(480, 800) // default = device screen dimensions
+                .denyCacheImageMultipleSizesInMemory()
                 .discCacheExtraOptions(480, 800, Bitmap.CompressFormat.JPEG, 75, null)
-                .threadPriority(Thread.NORM_PRIORITY - 1) // default
+                .threadPriority(Thread.NORM_PRIORITY - 2) // default
                 .tasksProcessingOrder(QueueProcessingType.FIFO) // default
                 .denyCacheImageMultipleSizesInMemory()
                 .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
@@ -63,7 +78,7 @@ public class MainApplication extends Application {
                 .discCacheSize(50 * 1024 * 1024)
                 .discCacheFileCount(100)
                 .discCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
-                .imageDownloader(new BaseImageDownloader(getApplicationContext())) // default
+                .imageDownloader(new BaseImageDownloader(context)) // default
                 .imageDecoder(new BaseImageDecoder(true)) // default
                 .defaultDisplayImageOptions(DisplayImageOptions.createSimple()) // default
                 .writeDebugLogs()
@@ -71,6 +86,4 @@ public class MainApplication extends Application {
 
         ImageLoader.getInstance().init(config);
     }
-
-
 }

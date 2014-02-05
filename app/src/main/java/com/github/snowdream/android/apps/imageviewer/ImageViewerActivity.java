@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
@@ -28,26 +29,37 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.webkit.MimeTypeMap;
 import com.github.snowdream.android.util.Log;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends ActionBarActivity implements PhotoViewAttacher.OnViewTapListener {
-    private ImageView imageView = null;
+
+public class ImageViewerActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener
+        , PhotoViewAttacher.OnViewTapListener {
     private String imageUri = null;
+    private List<String> imageUrls = null;
     private String fileName = null;
     private ImageLoader imageLoader = null;
-    private PhotoViewAttacher attacher = null;
     private ShareActionProvider shareActionProvider = null;
+    private int imageMode = 0; //0 multiple, 1,single
+    private int imagePosition = 0;
+    ViewPager viewPager = null;
+
+    public static class Extra {
+        public static final String IMAGES = "com.github.snowdream.android.apps.imageviewer.IMAGES";
+        public static final String IMAGE_POSITION = "com.github.snowdream.android.apps.imageviewer.IMAGE_POSITION";
+        public static final String IMAGE_MODE = "com.github.snowdream.android.apps.imageviewer.IMAGE_MODE";
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,81 +85,92 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
     public void initUI() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        imageView = (ImageView) findViewById(R.id.imageView);
-        attacher = new PhotoViewAttacher(imageView);
-       // attacher.setOnViewTapListener(this);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setOnPageChangeListener(this);
     }
 
     public void initData() {
         imageLoader = ImageLoader.getInstance();
+        imageUrls = new ArrayList<String>();
 
         Intent intent = getIntent();
         if (intent != null) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                imageUrls = bundle.getStringArrayList(Extra.IMAGES);
+                imagePosition = bundle.getInt(Extra.IMAGE_POSITION, 0);
+                imageMode = bundle.getInt(Extra.IMAGE_MODE, 0);
+                Log.i("The snowdream bundle path of the image is: " + imageUri);
+            }
+
             Uri uri = (Uri) intent.getData();
             if (uri != null) {
-                imageUri = "file://" + uri.getEncodedPath();
+                imageUri = uri.getEncodedPath();
                 fileName = uri.getLastPathSegment();
                 getSupportActionBar().setSubtitle(fileName);
                 Log.i("The path of the image is: " + imageUri);
+
+                File file = new File(imageUri);
+
+                imageUri = "file://" + imageUri;
+                File dir = file.getParentFile();
+                if (dir != null) {
+                    FileFilter fileFilter = new FileFilter() {
+                        @Override
+                        public boolean accept(File f) {
+                            if (f != null) {
+                                String extension = MimeTypeMap.getFileExtensionFromUrl(f.getAbsolutePath());
+                                if (!TextUtils.isEmpty(extension)) {
+                                    String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+                                    if (!TextUtils.isEmpty(mimeType) && mimeType.contains("image")) {
+                                        return true;
+                                    }
+                                }
+                            }
+                        return false;
+                    }
+                } ;
+
+                File[] files = dir.listFiles(fileFilter);
+
+                if (files != null && files.length > 0) {
+                    int size = files.length;
+
+                    for (int i = 0; i < size; i++) {
+                        imageUrls.add("file://" + files[i].getAbsolutePath());
+                        imagePosition = imageUrls.indexOf(imageUri);
+                        imageMode = 1;
+                        Log.i("Image Position:" + imagePosition);
+                    }
+                }
+
+            } else {
+                imageUrls.add("file://" + imageUri);
+                imagePosition = 0;
+                imageMode = 0;
             }
-        } else {
-            Log.w("The intent is null!");
         }
     }
 
+    else
+
+    {
+        Log.w("The intent is null!");
+    }
+
+}
+
     public void loadData() {
-//        DisplayImageOptions options = new DisplayImageOptions.Builder()
-//                .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
-//                .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
-//                .showImageOnFail(R.drawable.ic_error) // resource or drawable
-//                .resetViewBeforeLoading(false)  // default
-//                .delayBeforeLoading(1000)
-//                .cacheInMemory(false) // default
-//                .cacheOnDisc(false) // default
-//                .preProcessor(...)
-//        .postProcessor(...)
-//        .extraForDownloader(...)
-//        .considerExifParams(false) // default
-//                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2) // default
-//                .bitmapConfig(Bitmap.Config.ARGB_8888) // default
-//                .decodingOptions(...)
-//        .displayer(new SimpleBitmapDisplayer()) // default
-//                .handler(new Handler()) // default
-//                .build();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .resetViewBeforeLoading(true)
                 .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .cacheInMemory(false)
+                .considerExifParams(true)
                 .displayer(new FadeInBitmapDisplayer(300))
                 .build();
-        imageLoader.displayImage(imageUri, imageView, options, new ImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                        Log.i("onLoadingStarted");
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        Log.e("onLoadingFailed");
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        Log.i("onLoadingComplete");
-                        attacher.update();
-                    }
-
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view) {
-                        Log.w("onLoadingCancelled");
-                    }
-                }, new ImageLoadingProgressListener() {
-                    @Override
-                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                        Log.i("onProgressUpdate " + current + "/" + "total");
-                    }
-                }
-        );
+        viewPager.setAdapter(new ImageViewerPagerAdapter(this, imageUrls, options));
+        viewPager.setCurrentItem(imagePosition);
     }
 
     public void onViewTap(View view, float x, float y) {
@@ -233,4 +256,34 @@ public class MainActivity extends ActionBarActivity implements PhotoViewAttacher
     }
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        Log.i("onPageScrolled");
     }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.i("onPageSelected position:" + position);
+        if (imageUrls != null && imageUrls.size() > position) {
+            imageUri = imageUrls.get(position);
+
+            Uri uri = Uri.parse(imageUri);
+            fileName = uri.getLastPathSegment();
+            getSupportActionBar().setSubtitle(fileName);
+            Log.i("The path of the image is: " + imageUri);
+        }
+
+
+        Intent shareIntent = createShareIntent();
+        if (shareIntent != null) {
+            doShare(shareIntent);
+        }
+        Log.i("onPageSelected imageUri:" + imageUri);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        Log.i("onPageScrollStateChanged state:" + state);
+    }
+
+}
