@@ -37,6 +37,7 @@ allprojects {
         maven { url "file:///home/snowdream/workspace/git/mvn-repo/snapshots/" }
         maven { url "http://snowdream.github.io/mvn-repo/releases/" }
         maven { url "http://snowdream.github.io/mvn-repo/snapshots/" }
+        maven { url "http://repository.apache.org/snapshots/" }
     }
 
     tasks.withType(JavaCompile) {

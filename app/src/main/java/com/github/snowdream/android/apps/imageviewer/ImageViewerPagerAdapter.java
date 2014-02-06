@@ -2,6 +2,7 @@ package com.github.snowdream.android.apps.imageviewer;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,64 +60,70 @@ public class ImageViewerPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         String imageUri = list.get(position);
-        View view = LayoutInflater.from(context).inflate(R.layout.viewpager_item, container, false);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-        final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        View view = null;
+        /*if (imageUri.endsWith("gif")) {
 
-        final PhotoViewAttacher attacher = new PhotoViewAttacher(imageView);
+        }else if(imageUri.endsWith("svg")){
 
-        imageLoader.displayImage(imageUri, imageView, options, new ImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                        Log.i("onLoadingStarted");
-                        progressBar.setVisibility(View.VISIBLE);
-                    }
+        } else*/ {
+            view = LayoutInflater.from(context).inflate(R.layout.viewpager_item, container, false);
+            ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+            final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        String message = null;
-                        switch (failReason.getType()) {
-                            case IO_ERROR:
-                                message = "Input/Output error";
-                                break;
-                            case DECODING_ERROR:
-                                message = "Image can't be decoded";
-                                break;
-                            case NETWORK_DENIED:
-                                message = "Downloads are denied";
-                                break;
-                            case OUT_OF_MEMORY:
-                                message = "Out Of Memory error";
-                                break;
-                            case UNKNOWN:
-                                message = "Unknown error";
-                                break;
+            final PhotoViewAttacher attacher = new PhotoViewAttacher(imageView);
+
+            imageLoader.displayImage(imageUri, imageView, options, new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+                            Log.i("onLoadingStarted");
+                            progressBar.setVisibility(View.VISIBLE);
                         }
-                        Log.e("onLoadingFailed:" + message);
-                        progressBar.setVisibility(View.GONE);
-                    }
 
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        Log.i("onLoadingComplete");
-                        attacher.update();
-                        progressBar.setVisibility(View.GONE);
-                    }
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                            String message = null;
+                            switch (failReason.getType()) {
+                                case IO_ERROR:
+                                    message = "Input/Output error";
+                                    break;
+                                case DECODING_ERROR:
+                                    message = "Image can't be decoded";
+                                    break;
+                                case NETWORK_DENIED:
+                                    message = "Downloads are denied";
+                                    break;
+                                case OUT_OF_MEMORY:
+                                    message = "Out Of Memory error";
+                                    break;
+                                case UNKNOWN:
+                                    message = "Unknown error";
+                                    break;
+                            }
+                            Log.e("onLoadingFailed:" + message);
+                            progressBar.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view) {
-                        Log.w("onLoadingCancelled");
-                        progressBar.setVisibility(View.GONE);
-                    }
-                }, new ImageLoadingProgressListener() {
-                    @Override
-                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                        Log.i("onProgressUpdate " + current + "/" + "total");
-                    }
-                }
-        );
-        container.addView(view);
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            Log.i("onLoadingComplete");
+                            attacher.update();
+                            progressBar.setVisibility(View.GONE);
+                        }
 
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+                            Log.w("onLoadingCancelled");
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }, new ImageLoadingProgressListener() {
+                        @Override
+                        public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                            Log.i("onProgressUpdate " + current + "/" + "total");
+                        }
+                    }
+            );
+            container.addView(view);
+        }
         return view;
     }
 }
