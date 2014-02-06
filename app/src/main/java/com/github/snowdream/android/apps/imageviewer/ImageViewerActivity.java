@@ -105,7 +105,7 @@ public class ImageViewerActivity extends ActionBarActivity implements ViewPager.
 
             Uri uri = (Uri) intent.getData();
             if (uri != null) {
-                imageUri = uri.getEncodedPath();
+                imageUri = uri.getPath();
                 fileName = uri.getLastPathSegment();
                 getSupportActionBar().setSubtitle(fileName);
                 Log.i("The path of the image is: " + imageUri);
@@ -119,7 +119,7 @@ public class ImageViewerActivity extends ActionBarActivity implements ViewPager.
                         @Override
                         public boolean accept(File f) {
                             if (f != null) {
-                                String extension = MimeTypeMap.getFileExtensionFromUrl(f.getAbsolutePath());
+                                String extension = MimeTypeMap.getFileExtensionFromUrl(Uri.encode(f.getAbsolutePath()));
                                 if (!TextUtils.isEmpty(extension)) {
                                     String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
                                     if (!TextUtils.isEmpty(mimeType) && mimeType.contains("image")) {
@@ -138,10 +138,10 @@ public class ImageViewerActivity extends ActionBarActivity implements ViewPager.
 
                     for (int i = 0; i < size; i++) {
                         imageUrls.add("file://" + files[i].getAbsolutePath());
-                        imagePosition = imageUrls.indexOf(imageUri);
-                        imageMode = 1;
-                        Log.i("Image Position:" + imagePosition);
                     }
+                    imagePosition = imageUrls.indexOf(imageUri);
+                    imageMode = 1;
+                    Log.i("Image Position:" + imagePosition);
                 }
 
             } else {
