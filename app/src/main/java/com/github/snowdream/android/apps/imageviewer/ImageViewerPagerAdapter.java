@@ -15,8 +15,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener;
+import pl.droidsonroids.gif.GifDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -61,13 +63,18 @@ public class ImageViewerPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         String imageUri = list.get(position);
         View view = null;
-        /*if (imageUri.endsWith("gif")) {
+        view = LayoutInflater.from(context).inflate(R.layout.viewpager_item, container, false);
+        final ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
 
-        }else if(imageUri.endsWith("svg")){
-
-        } else*/ {
-            view = LayoutInflater.from(context).inflate(R.layout.viewpager_item, container, false);
-            ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+//        if (imageUri.endsWith("gif")) {
+//            try {
+//                GifDrawable gifDrawable =  new GifDrawable( "/path/anim.gif" );
+//                imageView.setImageDrawable(gifDrawable);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }else
+        {
             final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
             final PhotoViewAttacher attacher = new PhotoViewAttacher(imageView);
@@ -106,6 +113,15 @@ public class ImageViewerPagerAdapter extends PagerAdapter {
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                             Log.i("onLoadingComplete");
+                            if (imageUri.endsWith("gif")) {
+                                try {
+                                    Uri uri = Uri.parse(imageUri);
+                                    GifDrawable gifDrawable = new GifDrawable(uri.getPath());
+                                    imageView.setImageDrawable(gifDrawable);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                             attacher.update();
                             progressBar.setVisibility(View.GONE);
                         }

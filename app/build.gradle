@@ -28,6 +28,7 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.1'
     compile 'com.github.snowdream.android.util:log:1.0.4'
     compile 'com.github.chrisbanes.photoview:library:1.2.2'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.0.5@aar'
    // compile 'com.larvalabs:svgandroid:1.2@aar'
     //compile 'org.apache.commons:commons-imaging:1.0-SNAPSHOT'
 }
