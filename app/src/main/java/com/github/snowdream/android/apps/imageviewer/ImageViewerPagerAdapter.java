@@ -1,14 +1,20 @@
 package com.github.snowdream.android.apps.imageviewer;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
 import com.github.snowdream.android.util.Log;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -18,6 +24,9 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListene
 import pl.droidsonroids.gif.GifDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -86,6 +95,7 @@ public class ImageViewerPagerAdapter extends PagerAdapter {
                             progressBar.setVisibility(View.VISIBLE);
                         }
 
+                        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
                         @Override
                         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                             String message = null;
@@ -107,9 +117,34 @@ public class ImageViewerPagerAdapter extends PagerAdapter {
                                     break;
                             }
                             Log.e("onLoadingFailed:" + message);
+                            if (imageUri.endsWith("gif")) {
+                                try {
+                                    Uri uri = Uri.parse(imageUri);
+                                    GifDrawable gifDrawable = new GifDrawable(uri.getPath());
+                                    imageView.setImageDrawable(gifDrawable);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (imageUri.endsWith("svg")) {
+                                imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                                try {
+                                    Uri uri = Uri.parse(imageUri);
+                                    File svgFile = new File(uri.getPath());
+
+                                    SVG svg = SVG.getFromInputStream(new FileInputStream(svgFile));
+                                    Drawable svgDrawable = new PictureDrawable(svg.renderToPicture());
+                                    imageView.setImageDrawable(svgDrawable);
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (SVGParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            attacher.update();
                             progressBar.setVisibility(View.GONE);
                         }
 
+                        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                             Log.i("onLoadingComplete");
@@ -119,6 +154,20 @@ public class ImageViewerPagerAdapter extends PagerAdapter {
                                     GifDrawable gifDrawable = new GifDrawable(uri.getPath());
                                     imageView.setImageDrawable(gifDrawable);
                                 } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (imageUri.endsWith("svg")) {
+                                imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                                try {
+                                    Uri uri = Uri.parse(imageUri);
+                                    File svgFile = new File(uri.getPath());
+
+                                    SVG svg = SVG.getFromInputStream(new FileInputStream(svgFile));
+                                    Drawable svgDrawable = new PictureDrawable(svg.renderToPicture());
+                                    imageView.setImageDrawable(svgDrawable);
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (SVGParseException e) {
                                     e.printStackTrace();
                                 }
                             }

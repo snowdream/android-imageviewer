@@ -29,6 +29,7 @@ dependencies {
     compile 'com.github.snowdream.android.util:log:1.0.4'
     compile 'com.github.chrisbanes.photoview:library:1.2.2'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.0.5@aar'
+    compile 'com.caverock:androidsvg:1.2.1'
    // compile 'com.larvalabs:svgandroid:1.2@aar'
     //compile 'org.apache.commons:commons-imaging:1.0-SNAPSHOT'
 }
