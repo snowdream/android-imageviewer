@@ -11,8 +11,13 @@ Google Play : [![Get it on Google Play](https://developer.android.com/images/bra
 [Github][2]
 
 ##Preview
-![5.png](/docs/preview/5.png "5.png")
-![2.png](/docs/preview/2.png "2.png")
+![1.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/1.png "1.png")
+![2.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/2.png "2.png")
+![3.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/3.png "3.png")
+![4.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/4.png "4.png")
+![5.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/5.png "5.png")
+![6.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/6.png "6.png")
+![7.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/7.png "7.png")
 
 ##Supported Formats:
 JPEG (.jpg)
