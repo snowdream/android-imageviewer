@@ -7,8 +7,8 @@ It is a simple image viewer,but powerful.
 android 2.2+
 
 ##Download
-Google Play : [![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png "Get it on Google Play")][1]
-[Github][2]
+Google Play : [![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png "Get it on Google Play")][1]                   
+Github : [https://github.com/snowdream/android-imageviewer/releases/download/v1.0.5/imageviewer-v1.0.5-release.apk][2]
 
 ##Preview
 ![1.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/1.png "1.png")
@@ -20,12 +20,12 @@ Google Play : [![Get it on Google Play](https://developer.android.com/images/bra
 ![7.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/7.png "7.png")
 
 ##Supported Formats:
-JPEG (.jpg)
-GIF (.gif)
-PNG (.png)
-BMP (.bmp)
-WebP (.webp)   (Android 4.0+)
-SVG (.svg)
+JPEG (.jpg)          
+GIF (.gif)          
+PNG (.png)          
+BMP (.bmp)          
+WebP (.webp)   (Android 4.0+)          
+SVG (.svg)          
 
 ##Features:
 1. Double tap to zoom in or zoom out        
@@ -36,7 +36,7 @@ SVG (.svg)
 6. Svg image supported                        
 
 ##ChangeLog
-v1.05:
+v1.05:          
 Added: support for gif images with animation.          
 Added: support for svg images          
 Optimized: show the subtitle with the filename of the image.          
