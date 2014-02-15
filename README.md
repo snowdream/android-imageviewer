@@ -1,23 +1,47 @@
-#android-imageviewer
+#Snowdream ImageViewer
 
 ##Introduction
-android app - imageviewer
-a simple image viewer for android.
+It is a simple image viewer,but powerful.
 
 ##System requirements
-Android 2.3+
+android 2.2+
 
 ##Download
-[Google Play][1]
+Google Play : [![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png "Get it on Google Play")][1]
 [Github][2]
 
 ##Preview
 ![5.png](/docs/preview/5.png "5.png")
 ![2.png](/docs/preview/2.png "2.png")
 
+##Supported Formats:
+JPEG (.jpg)
+GIF (.gif)
+PNG (.png)
+BMP (.bmp)
+WebP (.webp)   (Android 4.0+)
+SVG (.svg)
+
+##Features:
+1. Double tap to zoom in or zoom out        
+2. Flip pages with horizontal scroll         
+3. Share the image to email,bluetooth,hangouts,qq,weixin,google+ etc            
+4. Set the image as the wallpaper or the icon of the contacts              
+5. Animated Gif image supported              
+6. Svg image supported                        
+
+##ChangeLog
+v1.05:
+Added: support for gif images with animation.          
+Added: support for svg images          
+Optimized: show the subtitle with the filename of the image.          
+
+v1.04:          
+Fixed: when the image path contains chinese charactors,the image can not be shown.          
+
 ##License
 ```
-Copyright (C) 2013 Snowdream Mobile <yanghui1986527@gmail.com>
+Copyright (C) 2014 Snowdream Mobile <yanghui1986527@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
