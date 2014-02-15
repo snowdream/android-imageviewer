@@ -19,7 +19,7 @@ Github : [https://github.com/snowdream/android-imageviewer/releases/download/v1.
 ![6.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/6.png "6.png")
 ![7.png](https://raw.github.com/snowdream/android-imageviewer/master/docs/preview/7.png "7.png")
 
-##Supported Formats:
+##Supported Formats
 JPEG (.jpg)          
 GIF (.gif)          
 PNG (.png)          
@@ -27,7 +27,7 @@ BMP (.bmp)
 WebP (.webp)   (Android 4.0+)          
 SVG (.svg)          
 
-##Features:
+##Features
 1. Double tap to zoom in or zoom out        
 2. Flip pages with horizontal scroll         
 3. Share the image to email,bluetooth,hangouts,qq,weixin,google+ etc            
