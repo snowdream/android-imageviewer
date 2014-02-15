@@ -62,4 +62,4 @@ limitations under the License.
 ```
 
 [1]:https://play.google.com/store/apps/details?id=com.github.snowdream.android.apps.imageviewer
-[2]:https://github.com/snowdream/android-imageviewer/releases/download/android-imageviewer-1.0.1/imageviewer-v1.0.1-release.apk
+[2]:https://github.com/snowdream/android-imageviewer/releases/download/v1.0.5/imageviewer-v1.0.5-release.apk
