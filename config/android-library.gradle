@@ -30,6 +30,7 @@ android {
         versionName  project.VERSION_NAME
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
+        packageName project.PACKAGE_NAME
     }
 
     packagingOptions {

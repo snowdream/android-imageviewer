@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.snowdream.android.helloworld;
+package com.github.snowdream.android.template.library;
 
 /**
  * Created by snowdream on 11/17/13.

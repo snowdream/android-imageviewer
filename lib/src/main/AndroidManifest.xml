@@ -15,7 +15,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.snowdream.android.helloworld"
+    package="com.github.snowdream.android.template.library"
     android:versionCode="1"
     android:versionName="1.0">
 
