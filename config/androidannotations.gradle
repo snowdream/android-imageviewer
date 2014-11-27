@@ -21,35 +21,18 @@
  * or
  * apply plugin: 'android-library'
  */
-apply plugin: 'android'
-//apply plugin: 'android-library'
-
-ext.androidAnnotationsVersion = '2.7.1';
-
-configurations {
-    apt
-}
+ 
+apply plugin: 'android-apt'
 
 dependencies {
-    apt "com.googlecode.androidannotations:androidannotations:${androidAnnotationsVersion}"
-    compile "com.googlecode.androidannotations:androidannotations-api:${androidAnnotationsVersion}"
+    apt "org.androidannotations:androidannotations:3.1"
+    compile "org.androidannotations:androidannotations-api:3.1"
 }
 
-android.applicationVariants.all { variant ->
-    aptOutput = file("${project.buildDir}/source/apt_generated/${variant.dirName}")
-    println "****************************"
-    println "variant: ${variant.name}"
-    println "manifest:  ${variant.processResources.manifestFile}"
-    println "aptOutput:  ${aptOutput}"
-    println "****************************"
-
-    variant.javaCompile.doFirst {
-        println "*** compile doFirst ${variant.name}"
-        aptOutput.mkdirs()
-        variant.javaCompile.options.compilerArgs += [
-                '-processorpath', configurations.apt.getAsPath(),
-                '-AandroidManifestFile=' + variant.processResources.manifestFile,
-                '-s', aptOutput
-        ]
+apt {
+    arguments {
+        // you can set annotation processing options here
+        logLevel "TRACE"
+        logConsoleAppender true
     }
 }
