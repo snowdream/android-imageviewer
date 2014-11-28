@@ -1,4 +1,5 @@
 #Snowdream ImageViewer
+[![Build Status](https://travis-ci.org/snowdream/android-imageviewer.svg?branch=master)](https://travis-ci.org/snowdream/android-imageviewer)
 
 ##Introduction
 It is a simple image viewer,but powerful.
