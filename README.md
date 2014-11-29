@@ -62,5 +62,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-[1]:https://play.google.com/store/apps/details?id=com.github.snowdream.android.apps.imageviewer
+[1]:https://play.google.com/store/apps/details?id=com.github.snowdream.android.apps.imageview
 [2]:https://github.com/snowdream/android-imageviewer/releases/download/v1.0.5/imageviewer-v1.0.5-release.apk
