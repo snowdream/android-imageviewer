@@ -15,3 +15,26 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keep public class com.google.android.gms.ads.**{
+    public *;
+}
+
+-keep public class com.google.ads.**{
+    public *;
+}
+
+-keep class com.nostra13.universalimageloader.** { *; }
+-keep class pl.droidsonroids.gif.** { *; }
+-keep class com.caverock.** { *; }
+-keep class com.github.chrisbanes.photoview.** { *; }
+
+-dontwarn com.nostra13.universalimageloader.**
+-dontwarn pl.droidsonroids.gif.**
+-dontwarn com.caverock.**
+-dontwarn com.github.chrisbanes.photoview.**
+
+-keep class android.support.v7.internal.** { *; }
+-keep interface android.support.v7.internal.** { *; }
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }

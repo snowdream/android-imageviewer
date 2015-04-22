@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2014 Snowdream Mobile <yanghui1986527@gmail.com>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 apply plugin: 'android-library'
 
 archivesBaseName = POM_NAME
@@ -30,12 +14,20 @@ android {
         versionName  project.VERSION_NAME
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        applicationId project.PACKAGE_NAME
 
         testApplicationId project.PACKAGE_NAME+".test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         testHandleProfiling true
         testFunctionalTest true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-lib-optimize.txt'), 'proguard-rules.txt'
+            //signingConfig signingConfigs.release
+        }
     }
 
     packagingOptions {
@@ -60,10 +52,15 @@ android {
             ext.androidJar =
                     "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
             classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
-            options.links("http://docs.oracle.com/javase/7/docs/api/");
-            options.linksOffline("http://d.android.com/reference","${android.sdkDirectory}/docs/reference");
-            options.links("http://ormlite.com/javadoc/ormlite-core/");
-            options.links("http://ormlite.com/javadoc/ormlite-android/");
+            options {
+                locale = 'en_US'
+                encoding = 'UTF-8'
+                charSet = 'UTF-8'
+                links("http://docs.oracle.com/javase/7/docs/api/");
+                linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
+                links("http://ormlite.com/javadoc/ormlite-core/");
+                links("http://ormlite.com/javadoc/ormlite-android/");
+            }
             exclude '**/BuildConfig.java'
             exclude '**/R.java'
             exclude '**/Log2File.java'
