@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 ads:adSize="SMART_BANNER"
-                ads:adUnitId="a152ef415b7b96f"
+                ads:adUnitId="ca-app-pub-4784160492252285/3654619650"
                 ads:loadAdOnCreate="false"/>
     </LinearLayout>
 
