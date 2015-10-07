@@ -43,7 +43,7 @@ Added: support for svg images
 Optimized: show the subtitle with the filename of the image.          
 
 v1.04:          
-Fixed: when the image path contains chinese charactors,the image can not be shown.          
+Fixed: when the image path contains chinese characters,the image can not be shown.          
 
 ##License
 ```
